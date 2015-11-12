@@ -10,7 +10,7 @@ configuration file `custom.conf.py` where you able to add any of your sentry
 parameters, such as SENTRY_URL_PREFIX, SERVER_EMAIL etc. 
 This config file extends default sentry config.
 
-3. **Database backup tool**. This is postgre database backup and restore tool.
+3. **Database backup tool**. This is [postgre database backup and restore tool](https://github.com/ffedoroff/docker-postgres-s3-backup).
 This tool allows to setup schedduled cron task to backup database and automatically 
 upload it to S3 bucket.
 
