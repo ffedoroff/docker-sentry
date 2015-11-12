@@ -28,9 +28,13 @@ git clone https://github.com/ffedoroff/docker-sentry.git && cd docker-sentry
 #### 2. Update configs
 You need to update few config files, to make sentry works for your domain and email.
 
-Set all parameters in `custom.conf.py` file, add any other sentry parameters if you need.
+Add any of sentry plugins, updating Dockerfile (see rows 7 and 8 [here](https://github.com/ffedoroff/docker-sentry/blob/docker-compose/Dockerfile))
 
-To make automated backups works [(docs)](https://github.com/ffedoroff/docker-postgres-s3-backup), update next parameters in `docker-compose.yml` file:
+Set all parameters in `custom.conf.py` file. You can add any other sentry parameters in that file if you need it.
+
+#### 3. Enable backups (optional)
+
+To make automated backups works [(more info)](https://github.com/ffedoroff/docker-postgres-s3-backup), uncomment `pgbackup` section in `docker-compose.yml` file and set parameters:
 
 `SCHEDULE` - is like linux cron syntax, but with seconds precise. (Second, Minute, Hour, Day_of_the_Month, Month_of_the_Year, Day_of_the_Week)
 
@@ -40,9 +44,17 @@ To make automated backups works [(docs)](https://github.com/ffedoroff/docker-pos
 
 `AWS_SECERT` - your Amazon API Secret
 
-#### 3. Run all containers
+#### 4. Run all containers
 ```
-docker-compose up
+docker-compose build
+docker-compose up -d
+```
+Now Sentry will work on your server and start automatically when server starts.
+To open sentry just open url of your server (it should match SENTRY_URL_PREFIX parameter in `custom.conf.py` file)
+
+To stop containsers call: 
+```
+docker-compose stop
 ```
 
 #### Backup database manually
