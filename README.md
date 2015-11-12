@@ -30,22 +30,32 @@ You need to update few config files, to make sentry works for your domain and em
 
 Set all parameters in `custom.conf.py` file, add any other sentry parameters if you need.
 
-To make automated backups work, update next parameters in `docker-compose.yml` file:
+To make automated backups works [(docs)](https://github.com/ffedoroff/docker-postgres-s3-backup), update next parameters in `docker-compose.yml` file:
 
+`SCHEDULE` - is like linux cron syntax, but with seconds precise. (Second, Minute, Hour, Day_of_the_Month, Month_of_the_Year, Day_of_the_Week)
 
-## Backup database manually
-You need to find docker container `pgbackup` full name or id using `docker ps` command.
-It is usually called `dockersentry_pgbackup_1` Then run: 
+`AWS_S3_PATH` - path to your amazon S3 bucket, for example: my-amazon-bucket/
+
+`AWS_KEY` - your Amazon API key
+
+`AWS_SECERT` - your Amazon API Secret
+
+#### 3. Run all containers
 ```
-docker exec -it dockersentry_pgbackup_1 ./cron-task.sh
+docker-compose up
 ```
-And you will have proper database backup done, archived and uploaded to S3 storage.
 
-## Restore database
-You need to find url of your database archive in S3 storage and make it temporary public.
-For example your url is https://s3-us-west-1.amazonaws.com/your-bucket/sentry-20151110-021500.sql.gz
-Then you need to find docker container `pgbackup` full name or id using `docker ps` command.
-It is usually called `dockersentry_pgbackup_1` To restore database run: 
+#### Backup database manually
+To backup database run `./backup-upload.sh` file in container:
+```
+docker exec -it dockersentry_pgbackup_1 ./backup-upload.sh
+```
+You will have proper database backup processed, archived and uploaded to S3 storage.
+
+#### Restore database
+You need to find url of your database archive in S3 storage and make it temporary public (if need).
+Assume, that your url is https://s3-us-west-1.amazonaws.com/your-bucket/sentry-20151110-021500.sql.gz
+To restore database run `./restore.sh` file in container: 
 ```
 docker exec -it dockersentry_pgbackup_1 ./restore.sh https://s3-us-west-1.amazonaws.com/your-bucket/sentry-20151110-021500.sql.gz
 ```
