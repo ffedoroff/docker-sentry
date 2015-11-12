@@ -1,0 +1,49 @@
+sentry:
+  build: .
+  restart: always
+  links:
+    - redis
+    - postgres
+  ports:
+    - "8080:9000"
+
+pgbackup:
+  image: ffedoroff/docker-postgres-s3-backup
+  restart: always
+  links:
+    - postgres
+  environment:
+    - SCHEDULE=0 0 8 * * *
+    - DBNAME=please-enter
+    - aws_s3_path=please-enter-path/to/your/bucket/
+    - aws_key=please-enter
+    - aws_secret=please-enter
+
+postgres:
+  image: postgres:9.4.5
+  restart: always
+  environment:
+    - POSTGRES_PASSWORD=sentry
+    - POSTGRES_USER=sentry
+  volumes:
+    - /var/lib/postgresql/data
+
+redis:
+  image: redis
+  restart: always
+
+celery-beat:
+  build: .
+  restart: always
+  links:
+    - redis
+    - postgres
+  command: sentry celery beat
+
+celery-worker:
+  build: .
+  restart: always
+  links:
+    - redis
+    - postgres
+  command: sentry celery worker
