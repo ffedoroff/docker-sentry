@@ -5,19 +5,20 @@ sentry:
     - redis
     - postgres
   ports:
-    - "8080:9000"
+    - "80:9000"
 
-pgbackup:
-  image: ffedoroff/docker-postgres-s3-backup
-  restart: always
-  links:
-    - postgres
-  environment:
-    - SCHEDULE=0 0 8 * * *
-    - DBNAME=please-enter
-    - aws_s3_path=please-enter-path/to/your/bucket/
-    - aws_key=please-enter
-    - aws_secret=please-enter
+# uncomment if you need automated backups to Amazon S3
+#pgbackup:
+#  image: ffedoroff/docker-postgres-s3-backup
+#  restart: always
+#  links:
+#    - postgres
+#  environment:
+#    - SCHEDULE=* * * * 0 *
+#    - AWS_S3_PATH=
+#    - AWS_KEY=
+#    - AWS_SECERT=
+#    - DBNAME=sentry 
 
 postgres:
   image: postgres:9.4.5
