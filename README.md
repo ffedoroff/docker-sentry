@@ -1,6 +1,6 @@
-# Sentry + docker-compose + postgre to s3 backup
+## Sentry + docker-compose + postgre to s3 backup
 
-# What is inside
+## What is inside
 
 1.  **Official sentry container**
 This container based on the [official Docker image for sentry](https://registry.hub.docker.com/_/sentry/).
@@ -18,11 +18,20 @@ upload it to S3 bucket.
 You don't need to setup anything. Just enter few parameters in 2 files and you
 will have Sentry + Postgres + Redis + Celery beat + Celery worker + Backups setup automatically.
 
-# How to use
+## How to use:
 
-Git clone ...
+#### 1. Clone repository
+```
+git clone https://github.com/ffedoroff/docker-sentry.git && cd docker-sentry
+```
 
-Update parameters
+#### 2. Update configs
+You need to update few config files, to make sentry works for your domain and email.
+
+Set all parameters in `custom.conf.py` file, add any other sentry parameters if you need.
+
+To make automated backups work, update next parameters in `docker-compose.yml` file:
+
 
 ## Backup database manually
 You need to find docker container `pgbackup` full name or id using `docker ps` command.
