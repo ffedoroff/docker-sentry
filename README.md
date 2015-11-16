@@ -18,6 +18,9 @@ upload it to S3 bucket.
 You don't need to setup anything. Just enter few parameters in 2 files and you
 will have Sentry + Postgres + Redis + Celery beat + Celery worker + Backups setup automatically.
 
+#### Prerequisites
+You need to setup [Docker](http://docs.docker.com/engine/installation/) and [docker-copose](https://docs.docker.com/compose/install/) to be able to run this container.
+
 ## How to use:
 
 #### 1. Clone repository
