@@ -57,6 +57,13 @@ To stop containsers call:
 docker-compose stop
 ```
 
+#### 5. Database setup
+If this is your fist run, you should syncdb and process db migrations, just run `sentry syncdb` and `sentry migrate` in `sentry` container like this:
+```
+docker exec -it dockersentry_sentry_1 sentry syncdb
+docker exec -it dockersentry_sentry_1 sentry migrate
+```
+
 #### Backup database manually
 To backup database run `./backup-upload.sh` file in container:
 ```
